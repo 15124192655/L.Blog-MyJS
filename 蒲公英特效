@@ -1,0 +1,136 @@
+<!--蒲公英特效-->
+ <script type="text/javascript">  
+     (function(window,document,undefined){  
+         var hearts = [];  
+         window.requestAnimationFrame = (function(){  
+             return window.requestAnimationFrame ||  
+                 window.webkitRequestAnimationFrame ||  
+                 window.mozRequestAnimationFrame ||  
+                 window.oRequestAnimationFrame ||  
+                 window.msRequestAnimationFrame ||  
+                 function (callback){  
+                     setTimeout(callback,1000/60);  
+                 }  
+         })();  
+         init();  
+         function init(){  
+             css(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");  
+             attachEvent();  
+             gameloop();  
+         }  
+         function gameloop(){  
+             for(var i=0;i<hearts.length;i++){  
+                 if(hearts[i].alpha <=0){  
+                     document.body.removeChild(hearts[i].el);  
+                     hearts.splice(i,1);  
+                     continue;  
+                 }  
+                 hearts[i].y--;  
+                 hearts[i].scale += 0.004;  
+                 hearts[i].alpha -= 0.013;  
+                 hearts[i].el.style.cssText = "left:"+hearts[i].x+"px;top:"+hearts[i].y+"px;opacity:"+hearts[i].alpha+";transform:scale("+hearts[i].scale+","+hearts[i].scale+") rotate(45deg);background:"+hearts[i].color;  
+             }  
+             requestAnimationFrame(gameloop);  
+         }  
+         function attachEvent(){  
+             var old = typeof window.onclick==="function" && window.onclick;  
+             window.onclick = function(event){  
+                 old && old();  
+                 createHeart(event);  
+             }  
+         }  
+         function createHeart(event){  
+             var d = document.createElement("div");  
+             d.className = "heart";  
+             hearts.push({  
+                 el : d,  
+                 x : event.clientX - 5,  
+                 y : event.clientY - 5,  
+                 scale : 1,  
+                 alpha : 1,  
+                 color : randomColor()  
+             });  
+             document.body.appendChild(d);  
+         }  
+         function css(css){  
+             var style = document.createElement("style");  
+             style.type="text/css";  
+             try{  
+                 style.appendChild(document.createTextNode(css));  
+             }catch(ex){  
+                 style.styleSheet.cssText = css;  
+             }  
+             document.getElementsByTagName('head')[0].appendChild(style);  
+         }  
+         function randomColor(){  
+             return "rgb("+(~~(Math.random()*255))+","+(~~(Math.random()*255))+","+(~~(Math.random()*255))+")";  
+         }  
+     })(window,document);  
+ </script>  
+  
+  
+ <div class="dandelion">  
+         <span class="smalldan"></span>  
+         <span class="bigdan"></span>  
+     </div>  
+       
+     <style type="text/css">  
+     @media screen and (max-width:600px){  
+     .dandelion{display: none !important;}  
+     }  
+         .dandelion .smalldan {  
+     width: 36px;  
+     height: 60px;  
+     right: 21px;  
+     background-position: 0 -90px;  
+     border: 0px solid red;  
+     }  
+     .dandelion span {  
+     -webkit-animation: ball-x 3s linear 2s infinite;  
+       -moz-animation: ball-x 3s linear 2s infinite;  
+       animation: ball-x 3s linear 2s infinite;  
+     -webkit-transform-origin: bottom center;  
+       -moz-transform-origin: bottom center;  
+       transform-origin: bottom center;  
+     }  
+     .dandelion span {  
+     display: block;  
+     position: fixed;  
+     z-index:9999999999;  
+     bottom: 0px;  
+     background-image: url(https:s1.ax1x.com/2020/04/25/Jy1prt.png);  
+     background-repeat: no-repeat;  
+     _background: none;  
+     }  
+     .dandelion .bigdan {  
+     width: 64px;  
+     height: 115px;  
+     right: 47px;  
+     background-position: -86px -36px;  
+     border: 0px solid red;  
+     }  
+     @keyframes ball-x {  
+         0% { transform:rotate(0deg);}  
+       20% { transform:rotate(5deg); }  
+       40% { transform:rotate(0deg);}  
+       60% { transform:rotate(-5deg);}  
+       80% { transform:rotate(0deg);}  
+       100% { transform:rotate(0deg);}  
+     }  
+     @-webkit-keyframes ball-x {  
+         0% { -webkit-transform:rotate(0deg);}  
+       20% { -webkit-transform:rotate(5deg); }  
+       40% { -webkit-transform:rotate(0deg);}  
+       60% { -webkit-transform:rotate(-5deg);}  
+       80% { -webkit-transform:rotate(0deg);}  
+       100% { -webkit-transform:rotate(0deg);}  
+     }  
+     @-moz-keyframes ball-x {  
+         0% { -moz-transform:rotate(0deg);}  
+       20% { -moz-transform:rotate(5deg); }  
+       40% { -moz-transform:rotate(0deg);}  
+       60% { -moz-transform:rotate(-5deg);}  
+       80% { -moz-transform:rotate(0deg);}  
+       100% { -moz-transform:rotate(0deg);}  
+     }  
+     </style>  
